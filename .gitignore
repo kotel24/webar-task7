@@ -1,0 +1,12 @@
+.DS_Store
+webar-task7/[Ll]ibrary/
+webar-task7/[Tt]emp/
+webar-task7/[Ll]ogs/
+webar-task7/[Uu]ser[Ss]ettings/
+webar-task7/[Oo]bj/
+webar-task7/Data/
+webar-task7/build/
+webar-task7/*.csproj
+webar-task7/*.sln
+webar-task7/.vscode/
+webar-task7/.idea/
