@@ -3,7 +3,8 @@
     "references": [
         "WebXR",
         "Unity.XR.Management",
-        "Unity.XR.Interaction.Toolkit"
+        "Unity.XR.Interaction.Toolkit",
+        "Unity.InputSystem"
     ],
     "autoReferenced": true
 }
