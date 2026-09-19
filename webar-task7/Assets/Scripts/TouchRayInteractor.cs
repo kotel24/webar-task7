@@ -14,6 +14,7 @@ public class TouchRayInteractor : MonoBehaviour
     private Vector2 aim;
     private float previousGap;
     private bool wasPinching;
+    private bool wasPressed;
 
     void Awake()
     {
@@ -79,7 +80,11 @@ public class TouchRayInteractor : MonoBehaviour
         }
 
         bool pressed = count > 0;
-        ray.selectInput.QueueManualState(pressed, pressed ? 1f : 0f);
+        if (pressed != wasPressed)
+        {
+            ray.selectInput.QueueManualState(pressed, pressed ? 1f : 0f);
+            wasPressed = pressed;
+        }
 
         float scale = 0f;
         bool pinching = count >= 2;
