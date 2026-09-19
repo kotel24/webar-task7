@@ -11,6 +11,7 @@ public class TouchRayInteractor : MonoBehaviour
     public float pinchSpeed = 1f;
 
     private XRRayInteractor ray;
+    private Vector2 aim;
     private float previousGap;
     private bool wasPinching;
 
@@ -19,9 +20,11 @@ public class TouchRayInteractor : MonoBehaviour
         ray = GetComponent<XRRayInteractor>();
         ray.manipulateAttachTransform = true;
         ray.scaleMode = XRScaleMode.ScaleOverTime;
+        ray.raycastTriggerInteraction = QueryTriggerInteraction.Collide;
         ray.selectInput.inputSourceMode = XRInputButtonReader.InputSourceMode.ManualValue;
         ray.scaleToggleInput.inputSourceMode = XRInputButtonReader.InputSourceMode.ManualValue;
         ray.scaleOverTimeInput.inputSourceMode = XRInputValueReader.InputSourceMode.ManualValue;
+        aim = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
     }
 
     void Start()
@@ -37,8 +40,7 @@ public class TouchRayInteractor : MonoBehaviour
             return;
         }
 
-        Vector2 first = new Vector2(Screen.width * 0.5f, Screen.height * 0.5f);
-        Vector2 second = first;
+        Vector2 second = aim;
         int count = 0;
 
         if (Touchscreen.current != null)
@@ -51,7 +53,7 @@ public class TouchRayInteractor : MonoBehaviour
                 }
                 if (count == 0)
                 {
-                    first = touch.position.ReadValue();
+                    aim = touch.position.ReadValue();
                 }
                 else if (count == 1)
                 {
@@ -61,9 +63,18 @@ public class TouchRayInteractor : MonoBehaviour
             }
         }
 
+        if (count == 0 && Mouse.current != null)
+        {
+            aim = Mouse.current.position.ReadValue();
+            if (Mouse.current.leftButton.isPressed)
+            {
+                count = 1;
+            }
+        }
+
         if (count < 2)
         {
-            Ray screenRay = view.ScreenPointToRay(first);
+            Ray screenRay = view.ScreenPointToRay(aim);
             transform.SetPositionAndRotation(screenRay.origin, Quaternion.LookRotation(screenRay.direction));
         }
 
@@ -74,7 +85,7 @@ public class TouchRayInteractor : MonoBehaviour
         bool pinching = count >= 2;
         if (pinching)
         {
-            float gap = Vector2.Distance(first, second);
+            float gap = Vector2.Distance(aim, second);
             if (wasPinching && Time.deltaTime > 0f)
             {
                 scale = (gap - previousGap) / Screen.height / Time.deltaTime * pinchSpeed;
