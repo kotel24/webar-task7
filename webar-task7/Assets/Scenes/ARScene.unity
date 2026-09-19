@@ -709,6 +709,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Cube
       objectReference: {fileID: 0}
+    - target: {fileID: 7032826426395329838, guid: 67541c9d1fd5e2c4798986ee73c07923, type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8513787482403080262, guid: 67541c9d1fd5e2c4798986ee73c07923, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.2
